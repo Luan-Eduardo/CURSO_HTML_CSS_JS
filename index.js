@@ -108,6 +108,9 @@ for(const item of perguntas) {
     dt.querySelector('span').textContent = resposta
     dt.querySelector('input').setAttribute('name', 'pergunta-' + perguntas.indexOf(item))
     dt.querySelector('input').value = item.respostas.indexOf(resposta)
+
+    dt.querySelector('span').setAttribute('name', 'pergunta-' + perguntas.indexOf(item))
+    dt.querySelector('span').value = item.respostas.indexOf(resposta)
     
     dt.querySelector('input').onchange = (event) => {
       const estaCorreta = event.target.value == item.correta
@@ -118,6 +121,18 @@ for(const item of perguntas) {
       //alert(corretas.size)
       mostrarTotal.textContent = corretas.size + ' de ' + totalDePerguntas
     }
+    
+    dt.querySelector('span').addEventListener('click', (event) => {
+      const estaCorreta = event.target.value == item.correta
+      corretas.delete(item)
+      if(estaCorreta) {
+        corretas.add(item)
+      }
+      //alert(item.correta)
+      mostrarTotal.textContent = corretas.size + ' de ' + totalDePerguntas
+      
+      dt.querySelector('input[name="'+ 'pergunta-' + perguntas.indexOf(item)+'"][value="'+item.respostas.indexOf(resposta)+'"]').checked = true;
+    })
     
     
     quizItem.querySelector('dl').appendChild(dt)
